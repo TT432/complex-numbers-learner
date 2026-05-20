@@ -11,9 +11,11 @@ const chapter02 = {
 
         <div class="ch-text">
           <p>复数有两种重要的表示方法：</p>
-          <div class="formula-block">$$z = a + bi \\quad \\text{(直角坐标形式)}$$</div>
+          <div class="formula-block">$$z = a + bi$$</div>
+          <p style="color:var(--text-muted);font-size:.9rem">直角坐标形式</p>
           <p>其中 $a$ 是实部，$b$ 是虚部。</p>
-          <div class="formula-block">$$z = r(\\cos\\theta + i\\sin\\theta) \\quad \\text{(极坐标形式)}$$</div>
+          <div class="formula-block">$$z = r(\cos\theta + i\sin\theta)$$</div>
+          <p style="color:var(--text-muted);font-size:.9rem">极坐标形式</p>
           <p>其中：</p>
           <ul style="padding-left:20px;margin:12px 0;line-height:2">
             <li><strong>模</strong> $r = |z| = \\sqrt{a^2 + b^2}$ — 点到原点的距离</li>
@@ -31,22 +33,22 @@ const chapter02 = {
           <div class="info-item">
             <span class="dot" style="background:#60a5fa"></span>
             <span class="label">直角坐标</span>
-            <span class="value" id="c02-rect">3 + 4i</span>
+            <span class="value" id="c02-rect">0</span>
           </div>
           <div class="info-item">
             <span class="dot" style="background:#34d399"></span>
             <span class="label">模 |z|</span>
-            <span class="value" id="c02-mod">5.00</span>
+            <span class="value" id="c02-mod">0.00</span>
           </div>
           <div class="info-item">
             <span class="dot" style="background:#f472b6"></span>
             <span class="label">辐角 θ</span>
-            <span class="value" id="c02-arg">53.13°</span>
+            <span class="value" id="c02-arg">0.00°</span>
           </div>
           <div class="info-item">
             <span class="dot" style="background:#a78bfa"></span>
             <span class="label">极坐标</span>
-            <span class="value" id="c02-polar">5.00·e^{53.13°i}</span>
+            <span class="value" id="c02-polar">0</span>
           </div>
         </div>
 
@@ -56,8 +58,8 @@ const chapter02 = {
       </div>
     `;
 
-    const z = new Complex(3, 4);
-    const plane = new ComplexPlane('c02-canvas', { scale: 45 });
+    const z = new Complex(0, 0);
+    const plane = new ComplexPlane('c02-canvas', { scale: 50 });
     plane.addPoint(z, '#60a5fa', 'z', (zp) => {
       document.getElementById('c02-rect').textContent = zp.fmt();
       document.getElementById('c02-mod').textContent = zp.r.toFixed(2);

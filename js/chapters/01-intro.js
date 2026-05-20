@@ -33,15 +33,15 @@ const chapter01 = {
           <div class="info-item">
             <span class="dot" style="background:#60a5fa"></span>
             <span class="label">复数 =</span>
-            <span class="value" id="c01-val">3 + 2i</span>
+            <span class="value" id="c01-val">0</span>
           </div>
           <div class="info-item">
             <span class="label">实部 Re =</span>
-            <span class="value" id="c01-real">3</span>
+            <span class="value" id="c01-real">0</span>
           </div>
           <div class="info-item">
             <span class="label">虚部 Im =</span>
-            <span class="value" id="c01-imag">2i</span>
+            <span class="value" id="c01-imag">0</span>
           </div>
         </div>
 
@@ -52,12 +52,12 @@ const chapter01 = {
       </div>
     `;
 
-    const z = new Complex(3, 2);
+    const z = new Complex(0, 0);
     const plane = new ComplexPlane('c01-canvas', { scale: 50 });
     plane.addPoint(z, '#60a5fa', 'z', (zp) => {
       document.getElementById('c01-val').textContent = zp.fmt();
-      document.getElementById('c01-real').textContent = zp.a;
-      document.getElementById('c01-imag').textContent = zp.b.toFixed(2) + 'i';
+      document.getElementById('c01-real').textContent = Math.abs(zp.a) < 1e-10 ? '0' : zp.a;
+      document.getElementById('c01-imag').textContent = Math.abs(zp.b) < 1e-10 ? '0' : zp.b.toFixed(2) + 'i';
     });
   }
 };

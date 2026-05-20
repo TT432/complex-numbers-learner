@@ -54,6 +54,7 @@ class Complex {
 
   /** 极坐标格式 */
   fmtPolar(dec = 2) {
+    if (this.r < 1e-10) return '0';
     return `${this.r.toFixed(dec)} · e^{${this.deg.toFixed(1)}°i}`;
   }
 }
