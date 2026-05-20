@@ -143,18 +143,20 @@ const chapters = [
   }
 
   function renderMath() {
-    if (window.renderMathInElement) {
-      try {
-        renderMathInElement(container, {
-          delimiters: [
-            {left: '$$', right: '$$', display: true},
-            {left: '$', right: '$', display: false}
-          ],
-          throwOnError: false
-        });
-      } catch(e) {
-        console.warn('KaTeX render error:', e);
-      }
+    if (window.renderMathInElement && container) {
+      requestAnimationFrame(() => {
+        try {
+          renderMathInElement(container, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}
+            ],
+            throwOnError: false
+          });
+        } catch(e) {
+          // 静默忽略，下次导航会重试
+        }
+      });
     }
   }
 
