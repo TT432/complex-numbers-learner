@@ -10,8 +10,8 @@ const chapter03 = {
         <p class="ch-subtitle">向量的平移</p>
 
         <div class="ch-text">
-          <p>复数加减等价于 $\mathbb{R}^2$ 向量加减：实部和虚部分别独立运算。</p>
-          <div class="formula-block">$$(a_1+b_1i) \pm (a_2+b_2i) = (a_1 \pm a_2) + (b_1 \pm b_2)i$$</div>
+          <p>复数加减等价于 $\\mathbb{R}^2$ 向量加减：实部和虚部分别独立运算。</p>
+          <div class="formula-block">$$(a_1+b_1i) \\pm (a_2+b_2i) = (a_1 \\pm a_2) + (b_1 \\pm b_2)i$$</div>
 
           <p><strong>几何意义：</strong>每个复数看作从原点出发的向量。加法遵循<strong>平行四边形法则</strong>——$z_1 + z_2$ 即 $z_1$ 与 $z_2$ 的向量和。减法 $z_1 - z_2 = z_1 + (-z_2)$，其中 $-z_2$ 是关于原点对称的向量。</p>
 

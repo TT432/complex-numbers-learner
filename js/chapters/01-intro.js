@@ -10,8 +10,8 @@ const chapter01 = {
         <p class="ch-subtitle">复平面：从实数到二维</p>
 
         <div class="ch-text">
-          <p>方程 $x^2 + 1 = 0$ 在实数域无解。引入虚数单位 $i$ 使得 $i^2 = -1$，则解为 $x = \pm i$。</p>
-          <div class="formula-block">$$z = a + bi \\quad (a, b \in \mathbb{R})$$</div>
+          <p>方程 $x^2 + 1 = 0$ 在实数域无解。引入虚数单位 $i$ 使得 $i^2 = -1$，则解为 $x = \\pm i$。</p>
+          <div class="formula-block">$$z = a + bi \\quad (a, b \\in \\mathbb{R})$$</div>
           <p>称 <span class="highlight">a</span> 为<strong>实部</strong>（real part），<span class="highlight2">b</span> 为<strong>虚部</strong>（imaginary part）。$b = 0$ 时退化为实数，$a = 0$ 时称为<strong>纯虚数</strong>（pure imaginary）。</p>
         </div>
 
@@ -43,7 +43,7 @@ const chapter01 = {
         </div>
 
         <div class="ch-text">
-          <p>与 $\mathbb{R}^2$ 向量不同，复数定义了乘法 $i^2 = -1$，这使得它不仅是二维点，更是一个<strong>代数结构</strong>——后续章节会看到这个乘法的几何意义。</p>
+          <p>与 $\\mathbb{R}^2$ 向量不同，复数定义了乘法 $i^2 = -1$，这使得它不仅是二维点，更是一个<strong>代数结构</strong>——后续章节会看到这个乘法的几何意义。</p>
         </div>
       </div>
     `);

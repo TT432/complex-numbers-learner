@@ -13,8 +13,8 @@ const chapter06 = {
           <p>极坐标形式使复数的乘方变得直观：</p>
           <div class="formula-block">$$[r(\\cos\\theta + i\\sin\\theta)]^n = r^n(\\cos n\\theta + i\\sin n\\theta)$$</div>
           <ul style="padding-left:20px;margin:12px 0;line-height:2">
-            <li>模 $r \to r^n$ — 指数级缩放</li>
-            <li>辐角 $\\theta \to n\\theta$ — 旋转速度线性增长</li>
+            <li>模 $r \\to r^n$ — 指数级缩放</li>
+            <li>辐角 $\\theta \\to n\\theta$ — 旋转速度线性增长</li>
           </ul>
         </div>
 
@@ -48,7 +48,7 @@ const chapter06 = {
           <p>当 $z = i$ 时，$i^2 = -1,\ i^3 = -i,\ i^4 = 1$ —— 四个值循环，对应每次 90\u00B0 旋转。</p>
 
           <p><strong>单位根（roots of unity）</strong> — 方程 $z^n = 1$ 在复数域恰有 $n$ 个解：</p>
-          <div class="formula-block">$$z_k = \\cos\\frac{2\pi k}{n} + i\\sin\\frac{2\pi k}{n},\\quad k = 0,1,\\dots,n-1$$</div>
+          <div class="formula-block">$$z_k = \\cos\\frac{2\\pi k}{n} + i\\sin\\frac{2\\pi k}{n},\\quad k = 0,1,\\dots,n-1$$</div>
           <p>这些解均匀分布在单位圆上，构成正 $n$ 边形。$n=3$ 为正三角形，$n=4$ 为正方形，$n=6$ 为正六边形。</p>
         </div>
 
