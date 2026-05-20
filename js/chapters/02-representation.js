@@ -17,12 +17,13 @@ const chapter02 = {
           <p>其中 $a$ 是实部（$x$ 坐标），$b$ 是虚部（$y$ 坐标）。这是用"横纵位置"来描述。</p>
 
           <p><strong>极坐标形式</strong>（三角形式）</p>
-          <div class="formula-block">$$z = r(\\cos\\theta + i\\sin\\theta)$$</div>
-          <p>其中 $r$ 是点到原点的距离，$\\theta$ 是与实轴正方向的夹角。这是用"距离和方向"来描述。</p>
+          <div class="formula-block">$$z = r(\cos\theta + i\sin\theta)$$</div>
+          <p>其中 $r$ 是点到原点的距离，$\theta$ 是与实轴正方向的夹角。这是用"距离和方向"来描述。</p>
           <ul style="padding-left:20px;margin:12px 0;line-height:2">
-            <li><strong>模</strong> $r = |z| = \\sqrt{a^2 + b^2}$</li>
-            <li><strong>辐角</strong> $\\theta = \\arg(z) = \\tan^{-1}(b/a)$</li>
+            <li><strong>模</strong> $r = |z| = \sqrt{a^2 + b^2}$</li>
+            <li><strong>辐角</strong> $\theta = \arg(z) = \tan^{-1}(b/a)$</li>
           </ul>
+          <p style="margin-top:12px">利用欧拉公式 $e^{i\theta} = \cos\theta + i\sin\theta$，极坐标形式可以简写为 <strong>$z = re^{i\theta}$</strong>。下文 info 面板中"极坐标"一栏显示的就是这种简洁形式。</p>
         </div>
 
         <div class="ch-text">
@@ -43,12 +44,12 @@ const chapter02 = {
           <div class="info-item">
             <span class="dot" style="background:#34d399"></span>
             <span class="label">模 |z|</span>
-            <span class="value" id="c02-mod">0.00</span>
+            <span class="value" id="c02-mod">0</span>
           </div>
           <div class="info-item">
             <span class="dot" style="background:#f472b6"></span>
             <span class="label">辐角 \u03B8</span>
-            <span class="value" id="c02-arg">0.0\u00B0</span>
+            <span class="value" id="c02-arg">0\u00B0</span>
           </div>
           <div class="info-item">
             <span class="dot" style="background:#a78bfa"></span>

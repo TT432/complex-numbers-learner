@@ -58,7 +58,20 @@ const chapter04 = {
           <div class="info-item">
             <span class="dot" style="background:#fb923c"></span>
             <span class="label">z\u2081 \u00F7 z\u2082</span>
-            <span class="value" id="c04-div">0.8-0.4i</span>
+            <span class="value" id="c04-div">1.2-0.4i</span>
+          </div>
+        </div>
+
+        <div class="info-panel" id="c04-polar-info">
+          <div class="info-item">
+            <span class="dot" style="background:var(--text-muted)"></span>
+            <span class="label">|z\u2081| \u00B7 |z\u2082| =</span>
+            <span class="value" id="c04-mod-prod">5.66</span>
+          </div>
+          <div class="info-item">
+            <span class="dot" style="background:var(--text-muted)"></span>
+            <span class="label">\u03B8\u2081 + \u03B8\u2082 =</span>
+            <span class="value" id="c04-angle-sum">108.4\u00B0</span>
           </div>
         </div>
 
@@ -90,6 +103,11 @@ const chapter04 = {
       document.getElementById('c04-z2').textContent = z2p.fmt();
       document.getElementById('c04-mul').textContent = mul.fmt();
       document.getElementById('c04-div').textContent = div.fmt();
+
+      // 极坐标信息：模相乘、辐角相加
+      document.getElementById('c04-mod-prod').textContent = (z1p.r * z2p.r).toFixed(2);
+      const angleSum = z1p.deg + z2p.deg;
+      document.getElementById('c04-angle-sum').textContent = angleSum.toFixed(1) + '\u00B0';
 
       plane.clearStatic();
       plane.addStaticVector(mul, '#f472b6', '');

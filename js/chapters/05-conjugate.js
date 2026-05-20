@@ -56,7 +56,7 @@ const chapter05 = {
           <div class="info-item">
             <span class="dot" style="background:#a78bfa"></span>
             <span class="label">z \u00B7 z\u0304 = |z|\u00B2</span>
-            <span class="value" id="c05-sq">13.00</span>
+            <span class="value" id="c05-sq">13</span>
           </div>
         </div>
 
@@ -78,7 +78,7 @@ const chapter05 = {
       document.getElementById('c05-z').textContent = zp.fmt();
       document.getElementById('c05-conj').textContent = conj.fmt();
       document.getElementById('c05-mod').textContent = zp.fmtMod();
-      document.getElementById('c05-sq').textContent = (zp.r * zp.r).toFixed(2);
+      document.getElementById('c05-sq').textContent = cleanNum(parseFloat((zp.r * zp.r).toFixed(2)));
 
       plane.clearStatic();
       plane.addStaticPoint(conj, '#34d399', 'z\u0304');
