@@ -6,7 +6,7 @@ const chapter07 = {
   render(container) {
     container.insertAdjacentHTML('beforeend', `
       <div class="chapter">
-        <h2>📝 第 7 章：综合练习</h2>
+        <h2>第 7 章：综合练习</h2>
         <p class="ch-subtitle">检验你的理解</p>
 
         <div class="ch-text">
@@ -15,7 +15,7 @@ const chapter07 = {
 
         <div class="quiz-container" id="c07-quiz">
           <div class="quiz-stats">
-            <span id="c07-score">✅ 0/0</span>
+            <span id="c07-score">0 / 0</span>
             <span id="c07-total">已回答 0 题</span>
           </div>
           <div class="quiz-question" id="c07-question">
@@ -23,7 +23,7 @@ const chapter07 = {
             <div class="quiz-options" id="c07-options"></div>
             <div class="quiz-feedback" id="c07-feedback"></div>
           </div>
-          <button class="quiz-next-btn" id="c07-next" disabled>下一题 →</button>
+          <button class="quiz-next-btn" id="c07-next" disabled>下一题</button>
         </div>
       </div>
     `);
@@ -48,8 +48,7 @@ const chapter07 = {
       currentQ.options.forEach((opt) => {
         const btn = document.createElement('div');
         btn.className = 'quiz-option';
-        // Try to render as KaTeX if it looks like LaTeX
-        if (opt.includes('{') || opt.includes('\\') || opt.includes('^') || opt.includes('_')) {
+        if (opt.includes('{') || opt.includes('\\\\') || opt.includes('^') || opt.includes('_')) {
           btn.innerHTML = `$$${opt}$$`;
         } else {
           btn.textContent = opt;
@@ -63,10 +62,9 @@ const chapter07 = {
 
           const isCorrect = opt === currentQ.answer;
           if (isCorrect) correctCount++;
-          document.getElementById('c07-score').textContent = `✅ ${correctCount}/${totalCount}`;
+          document.getElementById('c07-score').textContent = `${correctCount} / ${totalCount}`;
           document.getElementById('c07-total').textContent = `已回答 ${totalCount} 题`;
 
-          // 标记所有选项
           optsDiv.querySelectorAll('.quiz-option').forEach((b) => {
             if (b.dataset.value === currentQ.answer) {
               b.classList.add('correct');
@@ -79,10 +77,14 @@ const chapter07 = {
           const fb = document.getElementById('c07-feedback');
           if (isCorrect) {
             fb.className = 'quiz-feedback correct show';
-            fb.textContent = '✅ 回答正确！';
+            if (currentQ.z) {
+              fb.innerHTML = `正确！$z = ${currentQ.z.fmt()}$`;
+            } else {
+              fb.textContent = '回答正确！';
+            }
           } else {
             fb.className = 'quiz-feedback wrong show';
-            fb.innerHTML = `❌ 正确答案是：<strong>${currentQ.answer}</strong>`;
+            fb.innerHTML = `正确答案是：<strong>${currentQ.answer}</strong>`;
           }
 
           document.getElementById('c07-next').disabled = false;
@@ -91,7 +93,6 @@ const chapter07 = {
         optsDiv.appendChild(btn);
       });
 
-      // 渲染 KaTeX
       if (window.renderMathInElement) {
         try {
           renderMathInElement(document.getElementById('c07-question'), {

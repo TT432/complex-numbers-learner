@@ -303,6 +303,22 @@ html, body {
 .animate-btn:hover { border-color: var(--accent); color: var(--accent); }
 .animate-btn:disabled { opacity: .5; cursor: not-allowed; }
 
+/* Generic button for inline controls */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-dim);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: .85rem;
+  transition: all .15s;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+
 /* ---- Quiz ---- */
 .quiz-container { padding: 8px 0; }
 

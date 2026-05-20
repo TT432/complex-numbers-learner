@@ -1,11 +1,18 @@
 /* ===========================
-   utils.js — 复数数学工具
+   utils.js — 复数数学工具 (v2)
    =========================== */
+
+/** 去掉多余小数位的 0 */
+function cleanNum(n) {
+  if (Number.isInteger(n)) return String(n);
+  const s = n.toFixed(10);
+  return s.replace(/\.?0+$/, '');
+}
 
 class Complex {
   constructor(a, b) {
-    this.a = a; // 实部 Real
-    this.b = b; // 虚部 Imaginary
+    this.a = a;
+    this.b = b;
   }
 
   get r() { return Math.sqrt(this.a * this.a + this.b * this.b); }
@@ -32,7 +39,6 @@ class Complex {
   }
 
   conj() { return new Complex(this.a, -this.b); }
-
   scale(s) { return new Complex(this.a * s, this.b * s); }
 
   pow(n) {
@@ -41,21 +47,36 @@ class Complex {
     return new Complex(r * Math.cos(t), r * Math.sin(t));
   }
 
-  /** 格式化为 a+bi 字符串 */
-  fmt(dec = 2) {
-    const a = this.a.toFixed(dec);
-    const b = this.b.toFixed(dec);
-    const bAbs = Math.abs(this.b).toFixed(dec);
-    if (Math.abs(this.a) < 1e-10 && Math.abs(this.b) < 1e-10) return '0';
-    if (Math.abs(this.b) < 1e-10) return a;
-    if (Math.abs(this.a) < 1e-10) return (this.b >= 0 ? '' : '-') + bAbs + 'i';
-    return a + (this.b >= 0 ? '+' : '') + bAbs + 'i';
+  /** 格式化为 a+bi，整数不显示小数，±1 省略系数 */
+  fmt() {
+    const a = this.a;
+    const b = this.b;
+    if (Math.abs(a) < 1e-10 && Math.abs(b) < 1e-10) return '0';
+    if (Math.abs(b) < 1e-10) return cleanNum(a);
+
+    const sign = b >= 0 ? '+' : '-';
+    const absB = Math.abs(b);
+    const bStr = Math.abs(absB - 1) < 1e-10 ? '' : cleanNum(absB);
+
+    if (Math.abs(a) < 1e-10) return (b >= 0 ? '' : '-') + bStr + 'i';
+    return cleanNum(a) + sign + bStr + 'i';
+  }
+
+  /** 显示纯数值格式（带小数位控制） */
+  fmtVal(dec) {
+    return parseFloat(this.a.toFixed(dec)) + '+' + parseFloat(this.b.toFixed(dec)) + 'i';
   }
 
   /** 极坐标格式 */
   fmtPolar(dec = 2) {
     if (this.r < 1e-10) return '0';
-    return `${this.r.toFixed(dec)} · e^{${this.deg.toFixed(1)}°i}`;
+    return `${this.r.toFixed(dec)} \u00B7 e^{${this.deg.toFixed(1)}\u00B0i}`;
+  }
+
+  /** 模长格式化 */
+  fmtMod(dec = 2) {
+    if (this.r < 1e-10) return '0';
+    return this.r.toFixed(dec);
   }
 }
 
@@ -75,24 +96,24 @@ function unitRoots(n) {
   return roots;
 }
 
-/** n 次单位根（带 k 索引的标签） */
+/** n 次单位根（带标签） */
 function unitRootsLabeled(n) {
-  return unitRoots(n).map((z, k) => ({ z, label: `ω^{${k}}` }));
+  return unitRoots(n).map((z, k) => ({ z, label: `\u03C9^{${k}}` }));
 }
 
-/** 生成随机整数 [min, max] */
+/** 随机整数 [min, max] */
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/** 随机选择题型 */
+/** 随机出题（第 7 章用） */
 function genQuiz() {
   const types = ['mod', 'conj', 'add', 'sub', 'mul', 'polar', 'real', 'imag'];
   const type = types[randInt(0, types.length - 1)];
   const a = randInt(-5, 5);
   const b = randInt(-5, 5);
   const z = new Complex(a, b);
-  if (a === 0 && b === 0) return genQuiz(); // skip trivial
+  if (a === 0 && b === 0) return genQuiz();
   const z2 = new Complex(randInt(-4, 4), randInt(-4, 4));
   if (Math.abs(z2.a) < 1e-10 && Math.abs(z2.b) < 1e-10) return genQuiz();
 
@@ -110,17 +131,17 @@ function genQuiz() {
       options = genOptionsStr(answer, [z.fmt(), z.scale(-1).fmt(), z.conj().scale(-1).fmt(), new Complex(z.b, z.a).fmt()]);
       break;
     case 'add':
-      question = `计算 $z_1 = ${z.fmt()},\\; z_2 = ${z2.fmt()}$，求 $z_1 + z_2$`;
+      question = `计算 $z_1 = ${z.fmt()},\\\\; z_2 = ${z2.fmt()}$，求 $z_1 + z_2$`;
       answer = z.add(z2).fmt();
       options = genOptionsStr(answer, [z.fmt(), z2.fmt(), z.sub(z2).fmt()]);
       break;
     case 'sub':
-      question = `计算 $z_1 = ${z.fmt()},\\; z_2 = ${z2.fmt()}$，求 $z_1 - z_2$`;
+      question = `计算 $z_1 = ${z.fmt()},\\\\; z_2 = ${z2.fmt()}$，求 $z_1 - z_2$`;
       answer = z.sub(z2).fmt();
       options = genOptionsStr(answer, [z.fmt(), z2.fmt(), z.add(z2).fmt()]);
       break;
     case 'mul':
-      question = `计算 $z_1 = ${z.fmt()},\\; z_2 = ${z2.fmt()}$，求 $z_1 \\\\times z_2$`;
+      question = `计算 $z_1 = ${z.fmt()},\\\\; z_2 = ${z2.fmt()}$，求 $z_1 \\\\times z_2$`;
       answer = z.mul(z2).fmt();
       options = genOptionsStr(answer, [z.fmt(), z2.fmt(), z.div(z2).fmt()]);
       break;
@@ -141,7 +162,7 @@ function genQuiz() {
       break;
   }
 
-  return { question, answer, options };
+  return { question, answer, options, z };
 }
 
 function genOptions(correct, around) {
