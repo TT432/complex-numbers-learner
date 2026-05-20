@@ -14,21 +14,21 @@ const chapter04 = {
           <div class="formula-block">$$(a_1+b_1i)(a_2+b_2i) = (a_1a_2 - b_1b_2) + (a_1b_2 + a_2b_1)i$$</div>
           <p>展开即得，注意 $i^2 = -1$ 导致交叉项符号反转。</p>
 
-          <p><strong>极坐标视角（揭示几何本质）：</strong></p>
+          <p><strong>极坐标视角（polar form）：</strong></p>
           <div class="formula-block">$$z_1 z_2 = r_1 r_2 [\\cos(\\theta_1+\\theta_2) + i\\sin(\\theta_1+\\theta_2)]$$</div>
           <ul style="padding-left:20px;margin:12px 0;line-height:2">
-            <li><span class="highlight">模相乘</span>：$|z_1 z_2| = |z_1| \\cdot |z_2|$</li>
-            <li><span class="highlight2">辐角相加</span>：$\\arg(z_1 z_2) = \\arg(z_1) + \\arg(z_2)$</li>
+            <li>模相乘（moduli multiply）：$|z_1 z_2| = |z_1| \\cdot |z_2|$</li>
+            <li>辐角相加（arguments add）：$\\arg(z_1 z_2) = \\arg(z_1) + \\arg(z_2)$</li>
           </ul>
-          <p>乘以复数 $z_2$ 等价于：将 $z_1$ 缩放 $|z_2|$ 倍，再逆时针旋转 $\\arg(z_2)$ 角度。</p>
+          <p>乘以复数 $z_2$ 等价于：将 $z_1$ 缩放 $|z_2|$ 倍，再逆时针旋转 $\\\arg(z_2)$ 角度。</p>
 
-          <p>特例：乘以 $i$ 即逆时针旋转 <strong>90\u00B0</strong>（因为 $|i|=1,\ \\arg(i)=90\u00B0$）。</p>
-          <p>除法是逆操作：$|z_1/z_2| = |z_1|/|z_2|$，$\\arg(z_1/z_2) = \\arg(z_1) - \\arg(z_2)$。</p>
+          <p>特例：乘以 $i$ 即逆时针旋转 <strong>90°</strong>（$|i|=1,\\ \\\arg(i)=90°$）。</p>
+          <p>除法是逆操作（inverse）：$|z_1/z_2| = |z_1|/|z_2|$，$\\arg(z_1/z_2) = \\arg(z_1) - \\arg(z_2)$。</p>
         </div>
 
         <div class="canvas-wrapper">
           <canvas id="c04-canvas"></canvas>
-          <div class="canvas-label">拖拽蓝点：粉色 = 乘积（旋转+缩放），橙色 = 商</div>
+          <div class="canvas-label">粉色 = 乘积（旋转+缩放），橙色 = 商</div>
         </div>
 
         <div class="info-panel" id="c04-info">
@@ -57,7 +57,7 @@ const chapter04 = {
         <div class="info-panel" id="c04-polar-info">
           <div class="info-item">
             <span class="label">|z\u2081| \u00B7 |z\u2082| =</span>
-            <span class="value" id="c04-mod-prod">5.66</span>
+            <span class="value" id="c04-mod-prod">6.32</span>
           </div>
           <div class="info-item">
             <span class="label">\u03B8\u2081 + \u03B8\u2082 =</span>
@@ -74,7 +74,7 @@ const chapter04 = {
         </div>
 
         <div class="ch-text">
-          <p>尝试：拖 $z_2$ 到单位圆 $(|z_2|=1)$ 上观察纯旋转；拖到实轴上观察纯缩放。拖 $z_2$ 到 $(1,0)$ 时乘除结果不变。</p>
+          <p>乘法 = 旋转 + 缩放。$z_2$ 在单位圆上时为纯旋转，在实轴上时为纯缩放。$z_2 = 1$ 时结果不变。</p>
         </div>
       </div>
     `);
@@ -92,9 +92,10 @@ const chapter04 = {
       document.getElementById('c04-div').textContent = div.fmt();
 
       document.getElementById('c04-mod-prod').textContent = (z1p.r * z2p.r).toFixed(2);
-      document.getElementById('c04-angle-sum').textContent = (z1p.deg + z2p.deg).toFixed(1) + '\u00B0';
+      document.getElementById('c04-angle-sum').textContent = (z1p.deg + z2p.deg).toFixed(1) + '°';
 
       plane.clearStatic();
+      plane.addCircle(0, 0, 1, 'rgba(148,163,184,.2)', true);
       plane.addStaticVector(mul, '#f472b6', '');
       plane.addStaticVector(div, '#fb923c', '');
     }

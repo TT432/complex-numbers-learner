@@ -12,25 +12,25 @@ const chapter02 = {
         <div class="ch-text">
           <p>同一个点有两种描述方式：</p>
 
-          <p><strong>直角坐标（代数形式）</strong></p>
+          <p><strong>直角坐标（rectangular form / algebraic form）</strong></p>
           <div class="formula-block">$$z = a + bi$$</div>
           <p>$(a, b)$ 即点的"横纵位置"。</p>
 
-          <p><strong>极坐标（三角形式）</strong></p>
+          <p><strong>极坐标（polar form / trigonometric form）</strong></p>
           <div class="formula-block">$$z = r(\\cos\\theta + i\\sin\\theta)$$</div>
           <p>$r$ = 点到原点的距离（<strong>模</strong> modulus），$\\theta$ = 与实轴正方向的夹角（<strong>辐角</strong> argument）。</p>
 
           <ul style="padding-left:20px;margin:12px 0;line-height:2">
             <li>$r = |z| = \\sqrt{a^2 + b^2}$</li>
-            <li>$\\theta = \\arg(z) = \\tan^{-1}(b/a)$</li>
+            <li>$\\theta = \\arg(z) = \\operatorname{atan2}(b,a)$</li>
           </ul>
 
-          <p>由欧拉公式 $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$，极坐标可简写为 <strong>$z = re^{i\\theta}$</strong>。下文 info 面板中的"极坐标"栏即此形式。</p>
+          <p>由欧拉公式 $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$，极坐标可简写为 <strong>$z = re^{i\\theta}$</strong>。</p>
         </div>
 
         <div class="canvas-wrapper">
           <canvas id="c02-canvas"></canvas>
-          <div class="canvas-label">拖拽蓝点：两种表示法描述同一个点</div>
+          <div class="canvas-label">蓝色拖拽点同步显示两种表示法</div>
         </div>
 
         <div class="info-panel" id="c02-info">
@@ -57,7 +57,7 @@ const chapter02 = {
         </div>
 
         <div class="ch-text">
-          <p>极坐标将"乘法和乘方"简化为模的缩放和辐角的加减——第 4、6 章会展示这一点。</p>
+          <p>极坐标将"乘法和乘方"简化为模的缩放和辐角的加减</p>
         </div>
       </div>
     `);

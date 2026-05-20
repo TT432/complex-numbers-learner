@@ -10,17 +10,17 @@ const chapter06 = {
         <p class="ch-subtitle">乘方与单位根</p>
 
         <div class="ch-text">
-          <p>极坐标形式使复数的乘方变得直观：</p>
+          <p><strong>De Moivre's Theorem（棣莫弗定理）</strong> — 极坐标下复数乘方的闭式解：</p>
           <div class="formula-block">$$[r(\\cos\\theta + i\\sin\\theta)]^n = r^n(\\cos n\\theta + i\\sin n\\theta)$$</div>
           <ul style="padding-left:20px;margin:12px 0;line-height:2">
-            <li>模 $r \\to r^n$ — 指数级缩放</li>
-            <li>辐角 $\\theta \\to n\\theta$ — 旋转速度线性增长</li>
+            <li>模 $r \\to r^n$ — $r$ 取 $n$ 次幂</li>
+            <li>辐角 $\\theta \\to n\\theta$ — 旋转角度放大 $n$ 倍</li>
           </ul>
         </div>
 
         <div class="canvas-wrapper">
           <canvas id="c06-canvas"></canvas>
-          <div class="canvas-label">拖拽蓝点调 z，滑块调 n；粉色 = z\u207F</div>
+          <div class="canvas-label">蓝色 = z，粉色 = zⁿ；n 由滑块控制</div>
         </div>
 
         <div class="info-panel" id="c06-info">
@@ -48,7 +48,7 @@ const chapter06 = {
           <p>当 $z = i$ 时，$i^2 = -1,\ i^3 = -i,\ i^4 = 1$ —— 四个值循环，对应每次 90\u00B0 旋转。</p>
 
           <p><strong>单位根（roots of unity）</strong> — 方程 $z^n = 1$ 在复数域恰有 $n$ 个解：</p>
-          <div class="formula-block">$$z_k = \\cos\\frac{2\\pi k}{n} + i\\sin\\frac{2\\pi k}{n},\\quad k = 0,1,\\dots,n-1$$</div>
+          <div class="formula-block">$$z_k = \\\cos\\frac{2\\pi k}{n} + i\\\sin\\frac{2\\pi k}{n},\\quad k = 0,1,\\dots,n-1$$</div>
           <p>这些解均匀分布在单位圆上，构成正 $n$ 边形。$n=3$ 为正三角形，$n=4$ 为正方形，$n=6$ 为正六边形。</p>
         </div>
 
@@ -77,7 +77,8 @@ const chapter06 = {
       document.getElementById('c06-z').textContent = z.fmt();
       document.getElementById('c06-zn').textContent = zn.fmt();
       plane.clearStatic();
-      plane.addStaticVector(zn, '#f472b6', 'z\u207F');
+      plane.addCircle(0, 0, 1, 'rgba(148,163,184,.2)', true);
+      plane.addStaticVector(zn, '#f472b6', 'zⁿ');
     }
 
     plane.addPoint(z, '#60a5fa', 'z', () => updatePower());

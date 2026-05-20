@@ -128,22 +128,22 @@ function genQuiz() {
       options = genOptions(answer, z.r);
       break;
     case 'conj':
-      question = `求 $z = ${z.fmt()}$ 的共轭 $\\\\bar{z}$`;
+      question = `求 $z = ${z.fmt()}$ 的共轭 $\\bar{z}$`;
       answer = z.conj().fmt();
       options = genOptionsStr(answer, [z.fmt(), z.scale(-1).fmt(), z.conj().scale(-1).fmt(), new Complex(z.b, z.a).fmt()]);
       break;
     case 'add':
-      question = `计算 $z_1 = ${z.fmt()},\\\\; z_2 = ${z2.fmt()}$，求 $z_1 + z_2$`;
+      question = `计算 $z_1 = ${z.fmt()},\\; z_2 = ${z2.fmt()}$，求 $z_1 + z_2$`;
       answer = z.add(z2).fmt();
       options = genOptionsStr(answer, [z.fmt(), z2.fmt(), z.sub(z2).fmt()]);
       break;
     case 'sub':
-      question = `计算 $z_1 = ${z.fmt()},\\\\; z_2 = ${z2.fmt()}$，求 $z_1 - z_2$`;
+      question = `计算 $z_1 = ${z.fmt()},\\; z_2 = ${z2.fmt()}$，求 $z_1 - z_2$`;
       answer = z.sub(z2).fmt();
       options = genOptionsStr(answer, [z.fmt(), z2.fmt(), z.add(z2).fmt()]);
       break;
     case 'mul':
-      question = `计算 $z_1 = ${z.fmt()},\\\\; z_2 = ${z2.fmt()}$，求 $z_1 \\\\times z_2$`;
+      question = `计算 $z_1 = ${z.fmt()},\\; z_2 = ${z2.fmt()}$，求 $z_1 \\times z_2$`;
       answer = z.mul(z2).fmt();
       options = genOptionsStr(answer, [z.fmt(), z2.fmt(), z.div(z2).fmt()]);
       break;

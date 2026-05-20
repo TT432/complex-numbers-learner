@@ -2,20 +2,20 @@
 const chapter07 = {
   id: 'ch7',
   title: '综合练习',
-  subtitle: '检验你的理解',
+  subtitle: '检验你的理解 · Comprehensive Quiz',
   render(container) {
     container.insertAdjacentHTML('beforeend', `
       <div class="chapter">
         <h2>第 7 章：综合练习</h2>
-        <p class="ch-subtitle">检验你的理解</p>
+        <p class="ch-subtitle">检验你的理解 · Comprehensive Quiz</p>
 
         <div class="ch-text">
-          <p>随机出题，涵盖前 6 章的内容。选择正确答案，即时反馈。</p>
+          <p></p>
         </div>
 
         <div class="quiz-container" id="c07-quiz">
           <div class="quiz-stats">
-            <span id="c07-score">0 / 0</span>
+            <span id="c07-score">— / —</span>
             <span id="c07-total">已回答 0 题</span>
           </div>
           <div class="quiz-question" id="c07-question">
@@ -79,6 +79,7 @@ const chapter07 = {
             fb.className = 'quiz-feedback correct show';
             if (currentQ.z) {
               fb.innerHTML = `正确！$z = ${currentQ.z.fmt()}$`;
+      if (window.renderMathInElement) { try { renderMathInElement(fb, {delimiters: [{left: '$$', right: '$$', display: false}, {left: '$', right: '$', display: false}]}); } catch(e) {} }
             } else {
               fb.textContent = '回答正确！';
             }

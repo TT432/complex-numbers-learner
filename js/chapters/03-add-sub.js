@@ -2,25 +2,25 @@
 const chapter03 = {
   id: 'ch3',
   title: '复数的加减法',
-  subtitle: '向量的平移',
+  subtitle: '向量的平移（vector translation）',
   render(container) {
     container.insertAdjacentHTML('beforeend', `
       <div class="chapter">
         <h2>第 3 章：复数的加减法</h2>
-        <p class="ch-subtitle">向量的平移</p>
+        <p class="ch-subtitle">向量的平移（vector translation）</p>
 
         <div class="ch-text">
           <p>复数加减等价于 $\\mathbb{R}^2$ 向量加减：实部和虚部分别独立运算。</p>
           <div class="formula-block">$$(a_1+b_1i) \\pm (a_2+b_2i) = (a_1 \\pm a_2) + (b_1 \\pm b_2)i$$</div>
 
-          <p><strong>几何意义：</strong>每个复数看作从原点出发的向量。加法遵循<strong>平行四边形法则</strong>——$z_1 + z_2$ 即 $z_1$ 与 $z_2$ 的向量和。减法 $z_1 - z_2 = z_1 + (-z_2)$，其中 $-z_2$ 是关于原点对称的向量。</p>
+          <p><strong>几何意义：</strong>每个复数看作从原点出发的向量。加法即将 $z_2$ 平移至 $z_1$ 终点，和的终点即为平移后的位置。加法遵循<strong>平行四边形法则（parallelogram law）</strong>——$z_1 + z_2$ 即 $z_1$ 与 $z_2$ 的向量和。减法 $z_1 - z_2 = z_1 + (-z_2)$，其中 $-z_2$ 是关于原点对称的向量。</p>
 
           <p>$|z_1 - z_2|$ 的几何意义是复平面上两点 $z_1$ 与 $z_2$ 之间的<strong>欧氏距离</strong>（Euclidean distance）。</p>
         </div>
 
         <div class="canvas-wrapper">
           <canvas id="c03-canvas"></canvas>
-          <div class="canvas-label">拖拽蓝点：粉色 = 和，橙色 = 差；虚线为平行四边形辅助线</div>
+          <div class="canvas-label">粉色 = 和，橙色 = 差；虚线为平行四边形辅助线</div>
         </div>
 
         <div class="info-panel" id="c03-info">
@@ -47,7 +47,7 @@ const chapter03 = {
         </div>
 
         <div class="ch-text">
-          <p>尝试交互：拖 $z_2$ 到 $z_1$ 位置时 $z_1+z_2=2z_1,\;z_1-z_2=0$；拖 $z_2$ 到原点时两者都等于 $z_1$。</p>
+          <p>当 $z_2 = z_1$ 时 $z_1+z_2=2z_1,\;z_1-z_2=0$；当 $z_2 = 0$ 时 $z_1+z_2 = z_1-z_2 = z_1$。</p>
         </div>
       </div>
     `);
