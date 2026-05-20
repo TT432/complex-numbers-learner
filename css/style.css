@@ -193,6 +193,9 @@ html, body {
   padding: 12px;
   margin-bottom: 16px;
   box-shadow: var(--shadow);
+  max-width: min(500px, 100%);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .canvas-wrapper canvas {
@@ -223,6 +226,36 @@ html, body {
   flex-wrap: wrap;
   gap: 12px 24px;
   font-size: .9rem;
+}
+
+/* ---- Interactive Group (canvas + info/controls side by side on desktop) ---- */
+.interactive-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.interactive-group .canvas-wrapper {
+  margin: 0;
+}
+
+@media (min-width: 1024px) {
+  .interactive-group {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .interactive-group .canvas-wrapper {
+    flex: 0 0 auto;
+    width: 50%;
+    max-width: 480px;
+    margin: 0;
+  }
+  .interactive-group .info-panel,
+  .interactive-group .control-group {
+    flex: 1;
+    min-width: 200px;
+  }
 }
 
 .info-item { display: flex; align-items: center; gap: 6px; }

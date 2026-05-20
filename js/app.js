@@ -59,6 +59,21 @@ const chapters = [
     }
   });
 
+  // ---- 交互区域布局：将 canvas + info panel + control-group 包裹在一起 ----
+  document.querySelectorAll('.canvas-wrapper').forEach(wrapper => {
+    if (wrapper.parentElement.classList.contains('interactive-group')) return;
+    const group = document.createElement('div');
+    group.className = 'interactive-group';
+    wrapper.parentNode.insertBefore(group, wrapper);
+    group.appendChild(wrapper);
+    let el = group.nextElementSibling;
+    while (el && (el.classList.contains('info-panel') || el.classList.contains('control-group'))) {
+      const next = el.nextElementSibling;
+      group.appendChild(el);
+      el = next;
+    }
+  });
+
   // ---- 渲染公式 ----
   function renderMath() {
     if (!window.renderMathInElement) { setTimeout(renderMath, 200); return; }
