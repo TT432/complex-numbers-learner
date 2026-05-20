@@ -34,16 +34,10 @@ const chapters = [
   if (menuToggle) menuToggle.onclick = openSidebar;
   if (overlay) overlay.onclick = closeSidebar;
 
-  // ---- KaTeX 渲染（轮询等待 KaTeX 就绪）----
+  // ---- KaTeX 渲染 ----
   function renderMath() {
-    if (!container) return;
-    // 检测 container 内是否已有渲染结果
+    if (!container || !window.renderMathInElement) return;
     if (container.querySelector('.katex')) return;
-    if (!window.renderMathInElement) {
-      // KaTeX 尚未加载完成，100ms 后重试（defer 脚本比 body 末尾的脚本晚执行）
-      setTimeout(renderMath, 100);
-      return;
-    }
     try {
       renderMathInElement(container, {
         delimiters: [
@@ -53,7 +47,6 @@ const chapters = [
         throwOnError: false
       });
     } catch(e) {
-      // 渲染失败，稍后重试
       setTimeout(renderMath, 200);
     }
   }
