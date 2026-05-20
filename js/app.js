@@ -66,12 +66,17 @@ const chapters = [
     group.className = 'interactive-group';
     wrapper.parentNode.insertBefore(group, wrapper);
     group.appendChild(wrapper);
+
+    // 收集紧随的 info / control 元素
+    const side = document.createElement('div');
+    side.className = 'interactive-side';
     let el = group.nextElementSibling;
     while (el && (el.classList.contains('info-panel') || el.classList.contains('control-group'))) {
       const next = el.nextElementSibling;
-      group.appendChild(el);
+      side.appendChild(el);
       el = next;
     }
+    if (side.children.length > 0) group.appendChild(side);
   });
 
   // ---- 渲染公式 ----
