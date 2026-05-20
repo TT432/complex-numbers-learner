@@ -34,15 +34,39 @@ const chapters = [
   if (menuToggle) menuToggle.onclick = openSidebar;
   if (overlay) overlay.onclick = closeSidebar;
 
+  // ---- KaTeX 渲染（每次 DOM 变化后自动执行）----
+  function renderMath() {
+    if (!window.renderMathInElement || !container) return;
+    // 检测 container 内是否已有渲染结果
+    if (container.querySelector('.katex')) return;
+    try {
+      renderMathInElement(container, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    } catch(e) {
+      // 如果 KaTeX 尚未就绪，50ms 后重试
+      setTimeout(renderMath, 50);
+    }
+  }
+
+  // MutationObserver: 自动检测 container 中新增的 $$ 并渲染
+  const observer = new MutationObserver(() => {
+    if (container.querySelector('.katex')) return;
+    if (!container.innerHTML.includes('$$') && !container.innerHTML.includes('$\\')) return;
+    renderMath();
+  });
+  observer.observe(container, { childList: true, subtree: true, characterData: true });
+
   // ---- 路由 ----
   let currentChapter = null;
 
   function navigate(hash) {
     const id = hash.replace('#', '');
-    if (!id) {
-      showWelcome();
-      return;
-    }
+    if (!id) { showWelcome(); return; }
     const ch = chapters.find(c => c.id === id);
     if (!ch) { showWelcome(); return; }
     showChapter(ch);
@@ -59,7 +83,6 @@ const chapters = [
     `;
     setActive(null);
     updateProgress(0);
-    renderMath();
     currentChapter = null;
   }
 
@@ -69,6 +92,7 @@ const chapters = [
     const idx = chapters.indexOf(ch);
     updateProgress(idx + 1, ch);
     addNavButtons(ch, idx);
+    // 直接渲染公式，MutationObserver 也会兜底
     renderMath();
     currentChapter = ch;
   }
@@ -81,15 +105,13 @@ const chapters = [
   }
 
   function isDone(chId) {
-    const idx = chapters.findIndex(c => c.id === chId);
     const visited = getVisited();
     return visited.includes(chId);
   }
 
   function getVisited() {
-    try {
-      return JSON.parse(localStorage.getItem('complex_learner_visited') || '[]');
-    } catch { return []; }
+    try { return JSON.parse(localStorage.getItem('complex_learner_visited') || '[]'); }
+    catch { return []; }
   }
 
   function markVisited(chId) {
@@ -108,13 +130,11 @@ const chapters = [
     progressFill.style.width = pct + '%';
     progressText.textContent = `${visited} / ${total}`;
 
-    // 更新导航的完成标记
-    chapters.forEach((c, i) => {
+    chapters.forEach((c) => {
       const li = chapterList.querySelector(`li[data-chapter="${c.id}"]`);
       if (li && visited.includes(c.id)) {
         li.classList.add('done');
-        const check = li.querySelector('.check');
-        if (!check) {
+        if (!li.querySelector('.check')) {
           const s = document.createElement('span');
           s.className = 'check';
           s.textContent = '✓';
@@ -142,40 +162,20 @@ const chapters = [
     container.appendChild(nav);
   }
 
-  function renderMath() {
-    if (!window.renderMathInElement || !container) return;
-    try {
-      renderMathInElement(container, {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false}
-        ],
-        throwOnError: false
-      });
-    } catch(e) {
-      // fallback: 等 DOM 完全就绪后再试
-      setTimeout(() => {
-        try {
-          renderMathInElement(container, {
-            delimiters: [
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false}
-            ],
-            throwOnError: false
-          });
-        } catch(_) {}
-      }, 50);
-    }
+  // ---- 启动 ----
+  // 优先响应 hash 变化
+  window.addEventListener('hashchange', () => navigate(location.hash));
+
+  // 页面加载完成后导航到当前 hash
+  function boot() {
+    navigate(location.hash || '');
+    // 确保公式渲染
+    renderMath();
   }
 
-  // ---- 监听 hash 变化 ----
-  window.addEventListener('hashchange', () => navigate(location.hash));
-  window.addEventListener('load', () => {
-    navigate(location.hash || '');
-  });
-
-  // 如果页面已经加载完毕，触发初始导航
-  if (document.readyState === 'complete') {
-    navigate(location.hash || '');
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
   }
 })();
