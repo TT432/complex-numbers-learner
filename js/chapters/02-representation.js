@@ -79,6 +79,10 @@ const chapter02 = {
       document.getElementById('c02-arg').textContent = cleanNum(parseFloat(zp.deg.toFixed(1))) + '\u00B0';
       document.getElementById('c02-polar').textContent = zp.fmtPolar();
     });
+    // 初始化 info panel
+    document.getElementById('c02-mod').textContent = z.fmtMod();
+    document.getElementById('c02-arg').textContent = '0\u00B0';
+    document.getElementById('c02-polar').textContent = z.fmtPolar();
     plane.addCircle(0, 0, 5, 'rgba(148,163,184,.15)', true);
     // 标注特殊角度的位置引导
     plane.addStaticPoint(new Complex(1, 0), 'rgba(148,163,184,.3)', null);

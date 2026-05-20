@@ -71,5 +71,6 @@ const chapter01 = {
       document.getElementById('c01-real').textContent = Math.abs(zp.a) < 1e-10 ? '0' : cleanNum(zp.a);
       document.getElementById('c01-imag').textContent = Math.abs(zp.b) < 1e-10 ? '0' : cleanNum(zp.b);
     });
+    // 初始化 info panel
   }
 };
