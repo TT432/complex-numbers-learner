@@ -68,15 +68,17 @@ class Complex {
   }
 
   /** 极坐标格式 */
-  fmtPolar(dec = 2) {
+  fmtPolar() {
     if (this.r < 1e-10) return '0';
-    return `${this.r.toFixed(dec)} \u00B7 e^{${this.deg.toFixed(1)}\u00B0i}`;
+    const rStr = cleanNum(parseFloat(this.r.toFixed(2)));
+    const dStr = cleanNum(parseFloat(this.deg.toFixed(1)));
+    return `${rStr} · e^{${dStr}°i}`;
   }
 
   /** 模长格式化 */
-  fmtMod(dec = 2) {
+  fmtMod() {
     if (this.r < 1e-10) return '0';
-    return this.r.toFixed(dec);
+    return cleanNum(parseFloat(this.r.toFixed(2)));
   }
 }
 

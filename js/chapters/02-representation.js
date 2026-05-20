@@ -76,7 +76,7 @@ const chapter02 = {
     plane.addPoint(z, '#60a5fa', 'z', (zp) => {
       document.getElementById('c02-rect').textContent = zp.fmt();
       document.getElementById('c02-mod').textContent = zp.fmtMod();
-      document.getElementById('c02-arg').textContent = zp.deg.toFixed(1) + '\u00B0';
+      document.getElementById('c02-arg').textContent = cleanNum(parseFloat(zp.deg.toFixed(1))) + '\u00B0';
       document.getElementById('c02-polar').textContent = zp.fmtPolar();
     });
     plane.addCircle(0, 0, 5, 'rgba(148,163,184,.15)', true);
