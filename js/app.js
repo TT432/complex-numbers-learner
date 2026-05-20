@@ -1,5 +1,6 @@
 /* ===========================
-   app.js — SPA 路由 + 导航
+   app.js — 瀑布流布局
+   所有章节从上到下连续滚动
    =========================== */
 
 const chapters = [
@@ -15,14 +16,15 @@ const chapters = [
   const container = document.getElementById('chapter-container');
   const progressFill = document.getElementById('progress-fill');
   const progressText = document.getElementById('progress-text');
+  const mainContent = document.getElementById('content');
 
-  // ---- 构建导航 ----
+  // ---- 构建侧边栏 TOC ----
   chapters.forEach((ch, i) => {
     const li = document.createElement('li');
     li.dataset.chapter = ch.id;
     li.innerHTML = `<span class="num">${i + 1}</span> ${ch.title}`;
     li.onclick = () => {
-      location.hash = '#' + ch.id;
+      scrollToChapter(ch.id);
       closeSidebar();
     };
     chapterList.appendChild(li);
@@ -34,10 +36,29 @@ const chapters = [
   if (menuToggle) menuToggle.onclick = openSidebar;
   if (overlay) overlay.onclick = closeSidebar;
 
-  // ---- KaTeX 渲染 ----
+  // ---- 滚动到指定章节 ----
+  function scrollToChapter(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const offset = 20; // 顶部留白
+    const top = el.getBoundingClientRect().top + mainContent.scrollTop - offset;
+    mainContent.scrollTo({ top, behavior: 'smooth' });
+  }
+
+  // ---- 渲染所有章节（瀑布流） ----
+  chapters.forEach((ch, i) => {
+    ch.render(container);
+    // 章节之间加分隔线
+    if (i < chapters.length - 1) {
+      const hr = document.createElement('hr');
+      hr.style.cssText = 'border:none;border-top:1px solid var(--border);margin:48px 0;';
+      container.appendChild(hr);
+    }
+  });
+
+  // ---- 渲染公式 ----
   function renderMath() {
-    if (!container || !window.renderMathInElement) return;
-    if (container.querySelector('.katex')) return;
+    if (!window.renderMathInElement) { setTimeout(renderMath, 200); return; }
     try {
       renderMathInElement(container, {
         delimiters: [
@@ -46,134 +67,43 @@ const chapters = [
         ],
         throwOnError: false
       });
-    } catch(e) {
-      setTimeout(renderMath, 200);
-    }
+    } catch(e) { setTimeout(renderMath, 200); }
   }
+  renderMath();
 
-  // MutationObserver: 自动检测 container 中新增的 $$ 并渲染
-  const observer = new MutationObserver(() => {
-    if (container.querySelector('.katex')) return;
-    if (!container.innerHTML.includes('$$') && !container.innerHTML.includes('$\\')) return;
-    renderMath();
-  });
-  observer.observe(container, { childList: true, subtree: true, characterData: true });
+  // ---- 滚动监听：侧边栏高亮 + 进度条 ----
+  let ticking = false;
 
-  // ---- 路由 ----
-  let currentChapter = null;
-
-  function navigate(hash) {
-    const id = hash.replace('#', '');
-    if (!id) { showWelcome(); return; }
-    const ch = chapters.find(c => c.id === id);
-    if (!ch) { showWelcome(); return; }
-    showChapter(ch);
-  }
-
-  function showWelcome() {
-    container.innerHTML = `
-      <div class="welcome">
-        <h2>👋 欢迎</h2>
-        <p>通过拖拽、观察和练习，直观理解复数的几何意义。</p>
-        <p>点击左侧章节开始学习，或点击下方直接开始。</p>
-        <button class="btn-start" onclick="location.hash='#ch1'">开始学习 →</button>
-      </div>
-    `;
-    setActive(null);
-    updateProgress(0);
-    currentChapter = null;
-  }
-
-  function showChapter(ch) {
-    ch.render(container);
-    setActive(ch.id);
-    const idx = chapters.indexOf(ch);
-    updateProgress(idx + 1, ch);
-    addNavButtons(ch, idx);
-    // 直接渲染公式，MutationObserver 也会兜底
-    renderMath();
-    currentChapter = ch;
-  }
-
-  function setActive(id) {
-    chapterList.querySelectorAll('li').forEach(li => {
-      li.classList.toggle('active', li.dataset.chapter === id);
-      li.classList.toggle('done', isDone(li.dataset.chapter));
-    });
-  }
-
-  function isDone(chId) {
-    const visited = getVisited();
-    return visited.includes(chId);
-  }
-
-  function getVisited() {
-    try { return JSON.parse(localStorage.getItem('complex_learner_visited') || '[]'); }
-    catch { return []; }
-  }
-
-  function markVisited(chId) {
-    const v = getVisited();
-    if (!v.includes(chId)) {
-      v.push(chId);
-      localStorage.setItem('complex_learner_visited', JSON.stringify(v));
-    }
-  }
-
-  function updateProgress(count, ch) {
-    if (ch) markVisited(ch.id);
-    const total = chapters.length;
-    const visited = getVisited().length;
-    const pct = Math.round((visited / total) * 100);
+  function updateSidebarAndProgress() {
+    const scrollTop = mainContent.scrollTop;
+    const scrollHeight = mainContent.scrollHeight - mainContent.clientHeight;
+    const pct = scrollHeight > 0 ? Math.round((scrollTop / scrollHeight) * 100) : 0;
     progressFill.style.width = pct + '%';
-    progressText.textContent = `${visited} / ${total}`;
+    progressText.textContent = `${pct}%`;
 
-    chapters.forEach((c) => {
-      const li = chapterList.querySelector(`li[data-chapter="${c.id}"]`);
-      if (li && visited.includes(c.id)) {
-        li.classList.add('done');
-        if (!li.querySelector('.check')) {
-          const s = document.createElement('span');
-          s.className = 'check';
-          s.textContent = '✓';
-          li.appendChild(s);
-        }
+    // 高亮当前可见章节
+    let activeId = null;
+    for (const ch of chapters) {
+      const el = document.getElementById(ch.id);
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.4) {
+        activeId = ch.id;
       }
+    }
+
+    chapterList.querySelectorAll('li').forEach(li => {
+      li.classList.toggle('active', li.dataset.chapter === activeId);
     });
   }
 
-  function addNavButtons(ch, idx) {
-    const nav = document.createElement('div');
-    nav.className = 'chapter-nav';
+  mainContent.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => { ticking = false; updateSidebarAndProgress(); });
+      ticking = true;
+    }
+  });
 
-    const prevBtn = document.createElement('button');
-    prevBtn.textContent = '← 上一章';
-    prevBtn.disabled = idx === 0;
-    if (idx > 0) prevBtn.onclick = () => { location.hash = '#' + chapters[idx - 1].id; };
-
-    const nextBtn = document.createElement('button');
-    nextBtn.textContent = idx === chapters.length - 1 ? '🎉 已完成' : '下一章 →';
-    if (idx < chapters.length - 1) nextBtn.onclick = () => { location.hash = '#' + chapters[idx + 1].id; };
-
-    nav.appendChild(prevBtn);
-    nav.appendChild(nextBtn);
-    container.appendChild(nav);
-  }
-
-  // ---- 启动 ----
-  // 优先响应 hash 变化
-  window.addEventListener('hashchange', () => navigate(location.hash));
-
-  // 页面加载完成后导航到当前 hash
-  function boot() {
-    navigate(location.hash || '');
-    // 确保公式渲染
-    renderMath();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', boot);
-  } else {
-    boot();
-  }
+  // 初始更新
+  setTimeout(updateSidebarAndProgress, 300);
 })();
