@@ -1,4 +1,4 @@
-/* 第 3 章：复数的加减法 — 向量的平移 */
+/* 第 3 章：复数的加减法 */
 const chapter03 = {
   id: 'ch3',
   title: '复数的加减法',
@@ -10,25 +10,17 @@ const chapter03 = {
         <p class="ch-subtitle">向量的平移</p>
 
         <div class="ch-text">
-          <p>复数的加减法在几何上就是<strong>向量的加减</strong>。</p>
-          <div class="formula-block">$$z_1 + z_2 = (a_1 + a_2) + (b_1 + b_2)i$$</div>
+          <p>复数加减等价于 $\mathbb{R}^2$ 向量加减：实部和虚部分别独立运算。</p>
+          <div class="formula-block">$$(a_1+b_1i) \pm (a_2+b_2i) = (a_1 \pm a_2) + (b_1 \pm b_2)i$$</div>
 
-          <p><strong>几何意义：</strong>每个复数看作从原点出发的向量。加法遵循<strong>平行四边形法则</strong>——将 $z_2$ 的起点移到 $z_1$ 的终点，和就是从原点到平移后的终点。减法 $z_1 - z_2$ 相当于 $z_1 + (-z_2)$，即 $z_2$ 取反后再相加。</p>
-        </div>
+          <p><strong>几何意义：</strong>每个复数看作从原点出发的向量。加法遵循<strong>平行四边形法则</strong>——$z_1 + z_2$ 即 $z_1$ 与 $z_2$ 的向量和。减法 $z_1 - z_2 = z_1 + (-z_2)$，其中 $-z_2$ 是关于原点对称的向量。</p>
 
-        <div class="ch-text">
-          <p><strong>尝试以下拖拽：</strong></p>
-          <ul style="padding-left:20px;margin:12px 0;line-height:2">
-            <li>拖 $z_2$ 到 $z_1$ 位置 — $z_1+z_2 = 2z_1$，差为 0</li>
-            <li>拖 $z_2$ 到原点 — 加法和减法都等于 $z_1$</li>
-            <li>拖 $z_2$ 到实轴上（虚部=0）— 加法退化为实部相加</li>
-            <li>拖 $z_2$ 与 $z_1$ 关于原点对称 — $z_1+z_2 = 0$</li>
-          </ul>
+          <p>$|z_1 - z_2|$ 的几何意义是复平面上两点 $z_1$ 与 $z_2$ 之间的<strong>欧氏距离</strong>（Euclidean distance）。</p>
         </div>
 
         <div class="canvas-wrapper">
           <canvas id="c03-canvas"></canvas>
-          <div class="canvas-label">拖拽蓝色点，粉色为和（平行四边形法则），橙色为差</div>
+          <div class="canvas-label">拖拽蓝点：粉色 = 和，橙色 = 差；虚线为平行四边形辅助线</div>
         </div>
 
         <div class="info-panel" id="c03-info">
@@ -55,9 +47,7 @@ const chapter03 = {
         </div>
 
         <div class="ch-text">
-          <p><strong>数值意义：</strong></p>
-          <div class="formula-block">$$(a_1+b_1i) + (a_2+b_2i) = (a_1 + a_2) + (b_1 + b_2)i$$</div>
-          <p>实部与实部相加，虚部与虚部相加——独立运算，互不干扰。这正是向量加法的本质：各分量独立运算。</p>
+          <p>尝试交互：拖 $z_2$ 到 $z_1$ 位置时 $z_1+z_2=2z_1,\;z_1-z_2=0$；拖 $z_2$ 到原点时两者都等于 $z_1$。</p>
         </div>
       </div>
     `);
@@ -77,7 +67,6 @@ const chapter03 = {
       plane.clearStatic();
       plane.addStaticVector(add, '#f472b6');
       plane.addStaticVector(sub, '#fb923c');
-      // 平行四边形辅助线
       plane.addLine(z1p, z1p.add(z2p), 'rgba(96,165,250,.2)', true);
       plane.addLine(z2p, z1p.add(z2p), 'rgba(52,211,153,.2)', true);
     }

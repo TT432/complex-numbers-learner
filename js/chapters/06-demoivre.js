@@ -1,4 +1,4 @@
-/* 第 6 章：De Moivre 定理 — 乘方与单位根 */
+/* 第 6 章：De Moivre 定理 */
 const chapter06 = {
   id: 'ch6',
   title: 'De Moivre 定理',
@@ -10,19 +10,17 @@ const chapter06 = {
         <p class="ch-subtitle">乘方与单位根</p>
 
         <div class="ch-text">
-          <p>利用极坐标形式，复数的乘方变得极其简单。</p>
+          <p>极坐标形式使复数的乘方变得直观：</p>
           <div class="formula-block">$$[r(\\cos\\theta + i\\sin\\theta)]^n = r^n(\\cos n\\theta + i\\sin n\\theta)$$</div>
-
-          <p><strong>几何意义：</strong>乘方 $z^n$ 将模放大 $n$ 次方，将辐角放大 $n$ 倍。</p>
           <ul style="padding-left:20px;margin:12px 0;line-height:2">
-            <li>模 $r$ 变成 <span class="highlight">$r^n$</span> — 指数级缩放（$r>1$ 放大，$r<1$ 缩小）</li>
-            <li>辐角 $\\theta$ 变成 <span class="highlight">$n\\theta$</span> — 旋转速度随 $n$ 线性增加</li>
+            <li>模 $r \to r^n$ — 指数级缩放</li>
+            <li>辐角 $\\theta \to n\\theta$ — 旋转速度线性增长</li>
           </ul>
         </div>
 
         <div class="canvas-wrapper">
           <canvas id="c06-canvas"></canvas>
-          <div class="canvas-label">拖拽蓝点调整 z，滑块调整 n</div>
+          <div class="canvas-label">拖拽蓝点调 z，滑块调 n；粉色 = z\u207F</div>
         </div>
 
         <div class="info-panel" id="c06-info">
@@ -47,19 +45,11 @@ const chapter06 = {
         </div>
 
         <div class="ch-text">
-          <p><strong>尝试：</strong></p>
-          <ul style="padding-left:20px;margin:12px 0;line-height:2">
-            <li>拖 z 到 <span class="highlight">(1, 0)</span>，调整 n — $1^n \\equiv 1$，永远不变</li>
-            <li>拖 z 到 <span class="highlight">单位圆上</span>（$r=1$），调整 n — 模不变，只在圆上旋转</li>
-            <li>拖 z 到 <span class="highlight">(0, 1)</span>（$z=i$），n=2 — $i^2 = -1$</li>
-          </ul>
-        </div>
+          <p>当 $z = i$ 时，$i^2 = -1,\ i^3 = -i,\ i^4 = 1$ —— 四个值循环，对应每次 90\u00B0 旋转。</p>
 
-        <div class="ch-text">
-          <p><strong>单位根 — $z^n = 1$ 的 n 个解</strong></p>
-          <p>方程 $z^n = 1$ 在复数域恰好有 <strong>n 个解</strong>，它们均匀分布在单位圆上，构成一个正 n 边形：</p>
-          <div class="formula-block">$$z_k = \\cos\\frac{2\\pi k}{n} + i\\sin\\frac{2\\pi k}{n},\\quad k = 0,1,\\dots,n-1$$</div>
-          <p>调整下方的 n 值观察：n=3 构成正三角形，n=4 构成正方形，n=6 构成正六边形。</p>
+          <p><strong>单位根（roots of unity）</strong> — 方程 $z^n = 1$ 在复数域恰有 $n$ 个解：</p>
+          <div class="formula-block">$$z_k = \\cos\\frac{2\pi k}{n} + i\\sin\\frac{2\pi k}{n},\\quad k = 0,1,\\dots,n-1$$</div>
+          <p>这些解均匀分布在单位圆上，构成正 $n$ 边形。$n=3$ 为正三角形，$n=4$ 为正方形，$n=6$ 为正六边形。</p>
         </div>
 
         <div class="control-group">
@@ -72,12 +62,12 @@ const chapter06 = {
 
         <div class="canvas-wrapper">
           <canvas id="c06-canvas2"></canvas>
-          <div class="canvas-label">n 次单位根均匀分布在单位圆上，构成正 n 边形</div>
+          <div class="canvas-label">n 次单位根构成正 n 边形</div>
         </div>
       </div>
     `);
 
-    // ---- Part 1: z^n ----
+    // Part 1: z^n
     const z = new Complex(1.5, 1);
     const plane = new ComplexPlane('c06-canvas', { scale: 40 });
     let n = 2;
@@ -91,7 +81,6 @@ const chapter06 = {
     }
 
     plane.addPoint(z, '#60a5fa', 'z', () => updatePower());
-    // 单位圆参考
     plane.addCircle(0, 0, 1, 'rgba(148,163,184,.2)', true);
     updatePower();
 
@@ -101,7 +90,7 @@ const chapter06 = {
       updatePower();
     };
 
-    // ---- Part 2: Unit roots ----
+    // Part 2: Unit roots
     const plane2 = new ComplexPlane('c06-canvas2', { scale: 50 });
     let rootN = 5;
 

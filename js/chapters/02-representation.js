@@ -1,4 +1,4 @@
-/* 第 2 章：复数的表示 — 直角坐标与极坐标 */
+/* 第 2 章：复数的表示 */
 const chapter02 = {
   id: 'ch2',
   title: '复数的表示',
@@ -10,29 +10,27 @@ const chapter02 = {
         <p class="ch-subtitle">直角坐标与极坐标</p>
 
         <div class="ch-text">
-          <p>复数有两种等价的表示方法，从不同角度描述同一个点。</p>
+          <p>同一个点有两种描述方式：</p>
 
-          <p><strong>直角坐标形式</strong>（代数形式）</p>
+          <p><strong>直角坐标（代数形式）</strong></p>
           <div class="formula-block">$$z = a + bi$$</div>
-          <p>其中 $a$ 是实部（$x$ 坐标），$b$ 是虚部（$y$ 坐标）。这是用"横纵位置"来描述。</p>
+          <p>$(a, b)$ 即点的"横纵位置"。</p>
 
-          <p><strong>极坐标形式</strong>（三角形式）</p>
+          <p><strong>极坐标（三角形式）</strong></p>
           <div class="formula-block">$$z = r(\\cos\\theta + i\\sin\\theta)$$</div>
-          <p>其中 $r$ 是点到原点的距离，$\\theta$ 是与实轴正方向的夹角。这是用"距离和方向"来描述。</p>
-          <ul style="padding-left:20px;margin:12px 0;line-height:2">
-            <li><strong>模</strong> $r = |z| = \\sqrt{a^2 + b^2}$</li>
-            <li><strong>辐角</strong> $\\theta = \\arg(z) = \\tan^{-1}(b/a)$</li>
-          </ul>
-          <p style="margin-top:12px">利用欧拉公式 $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$，极坐标形式可以简写为 <strong>$z = re^{i\\theta}$</strong>。下文 info 面板中"极坐标"一栏显示的就是这种简洁形式。</p>
-        </div>
+          <p>$r$ = 点到原点的距离（<strong>模</strong> modulus），$\\theta$ = 与实轴正方向的夹角（<strong>辐角</strong> argument）。</p>
 
-        <div class="ch-text">
-          <p><strong>几何意义：</strong>拖拽蓝点，观察直角坐标和极坐标如何从同一个点衍生出两种描述。虚线圆是单位圆 ($r=1$)，当点在圆上时辐角的变化尤为清晰。</p>
+          <ul style="padding-left:20px;margin:12px 0;line-height:2">
+            <li>$r = |z| = \\sqrt{a^2 + b^2}$</li>
+            <li>$\\theta = \\arg(z) = \\tan^{-1}(b/a)$</li>
+          </ul>
+
+          <p>由欧拉公式 $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$，极坐标可简写为 <strong>$z = re^{i\\theta}$</strong>。下文 info 面板中的"极坐标"栏即此形式。</p>
         </div>
 
         <div class="canvas-wrapper">
           <canvas id="c02-canvas"></canvas>
-          <div class="canvas-label">拖拽蓝点，观察 r 和 \u03B8 随位置的连续变化</div>
+          <div class="canvas-label">拖拽蓝点：两种表示法描述同一个点</div>
         </div>
 
         <div class="info-panel" id="c02-info">
@@ -59,15 +57,7 @@ const chapter02 = {
         </div>
 
         <div class="ch-text">
-          <p><strong>尝试以下拖拽位置：</strong></p>
-          <ul style="padding-left:20px;margin:12px 0;line-height:2">
-            <li>拖到 <span class="highlight">(1, 0)</span> — $r = 1,\\ \\theta = 0\\degree$，圆周上的起点</li>
-            <li>拖到 <span class="highlight">(0, 1)</span> — $r = 1,\\ \\theta = 90\\degree$，纯虚数 $i$</li>
-            <li>拖到 <span class="highlight">(-1, 0)</span> — $r = 1,\\ \\theta = 180\\degree$，实数 $-1$</li>
-            <li>拖到 <span class="highlight">(0, -1)</span> — $r = 1,\\ \\theta = -90\\degree$（或 $270\\degree$）</li>
-            <li>拖到 <span class="highlight">(2, 2)</span> — $r = \\sqrt{8} \\approx 2.83$，辐角 $\\theta = 45\\degree$</li>
-          </ul>
-          <p><strong>数值意义：</strong>极坐标形式 $z = re^{i\\theta}$ 在乘除法中尤为有用——这一点将在第 4 章体现。</p>
+          <p>极坐标将"乘法和乘方"简化为模的缩放和辐角的加减——第 4、6 章会展示这一点。</p>
         </div>
       </div>
     `);
@@ -80,12 +70,10 @@ const chapter02 = {
       document.getElementById('c02-arg').textContent = cleanNum(parseFloat(zp.deg.toFixed(1))) + '\u00B0';
       document.getElementById('c02-polar').textContent = zp.fmtPolar();
     });
-    // 初始化 info panel
     document.getElementById('c02-mod').textContent = z.fmtMod();
     document.getElementById('c02-arg').textContent = '0\u00B0';
     document.getElementById('c02-polar').textContent = z.fmtPolar();
     plane.addCircle(0, 0, 5, 'rgba(148,163,184,.15)', true);
-    // 标注特殊角度的位置引导
     plane.addStaticPoint(new Complex(1, 0), 'rgba(148,163,184,.3)', null);
     plane.addStaticPoint(new Complex(0, 1), 'rgba(148,163,184,.3)', null);
     plane.addStaticPoint(new Complex(-1, 0), 'rgba(148,163,184,.3)', null);
