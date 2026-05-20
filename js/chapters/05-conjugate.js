@@ -54,7 +54,7 @@ const chapter05 = {
           <p>💡 再试试把 z 拖到虚轴上（实部=0），看看纯虚数的共轭是什么。</p>
         </div>
       </div>
-    `;
+    `);
 
     const z = new Complex(3, 2);
     const plane = new ComplexPlane('c05-canvas', { scale: 45 });

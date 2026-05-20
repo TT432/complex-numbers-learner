@@ -66,7 +66,7 @@ const chapter06 = {
           <div class="canvas-label">n 次单位根构成一个正 n 边形</div>
         </div>
       </div>
-    `;
+    `);
 
     // ---- 第一部分：z^n ----
     const z = new Complex(1.5, 1);

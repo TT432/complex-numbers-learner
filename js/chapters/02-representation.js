@@ -56,7 +56,7 @@ const chapter02 = {
           <p>💡 复数的极坐标形式揭示了乘除法的几何本质，这是下一章的关键。</p>
         </div>
       </div>
-    `;
+    `);
 
     const z = new Complex(0, 0);
     const plane = new ComplexPlane('c02-canvas', { scale: 50 });

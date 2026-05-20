@@ -50,7 +50,7 @@ const chapter01 = {
           <p>💡 <strong>提示：</strong> 每个复数对应复平面上唯一的一个点，反之亦然。</p>
         </div>
       </div>
-    `;
+    `);
 
     const z = new Complex(0, 0);
     const plane = new ComplexPlane('c01-canvas', { scale: 50 });

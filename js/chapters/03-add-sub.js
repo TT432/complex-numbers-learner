@@ -51,7 +51,7 @@ const chapter03 = {
           <p>💡 试试把 z₂ 的实部和虚部取反：z₁ − z₂ 其实就是 z₁ + (−z₂)。</p>
         </div>
       </div>
-    `;
+    `);
 
     const z1 = new Complex(3, 2);
     const z2 = new Complex(1, 3);

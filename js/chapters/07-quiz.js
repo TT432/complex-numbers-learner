@@ -26,7 +26,7 @@ const chapter07 = {
           <button class="quiz-next-btn" id="c07-next" disabled>下一题 →</button>
         </div>
       </div>
-    `;
+    `);
 
     let currentQ = null;
     let correctCount = 0;

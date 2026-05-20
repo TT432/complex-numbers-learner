@@ -65,7 +65,7 @@ const chapter04 = {
           <p>💡 再把 z₂ 拖到单位圆上（模=1），看看乘法退化成纯旋转。</p>
         </div>
       </div>
-    `;
+    `);
 
     const z1 = new Complex(2, 2);
     const z2 = new Complex(1, 2);
