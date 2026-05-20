@@ -1,7 +1,7 @@
 /* ===========================
-   canvas.js — 复平面 Canvas 引擎 (v2)
-   修复：统一使用 CSS 像素坐标系
-   鼠标 + 触屏双支持
+   canvas.js — 复平面 Canvas 引擎 (v3)
+   修复：不设置 style.width/height，由 CSS 布局
+   读取 canvas 自身 getBoundingClientRect 获取实际尺寸
    =========================== */
 
 class ComplexPlane {
@@ -35,11 +35,13 @@ class ComplexPlane {
   }
 
   _resize() {
-    const rect = this.canvas.parentElement.getBoundingClientRect();
-    const size = Math.min(rect.width, 500);
     const dpr = window.devicePixelRatio || 1;
-    this.canvas.style.width = size + 'px';
-    this.canvas.style.height = size + 'px';
+    // 读取 canvas 自身的实际 CSS 渲染尺寸（由 CSS width:100% + aspect-ratio:1 决定）
+    const rect = this.canvas.getBoundingClientRect();
+    const size = Math.min(rect.width, rect.height);
+    if (size <= 0) return;
+
+    // 只设内部分辨率，不设 style（CSS 负责布局）
     this.canvas.width = Math.round(size * dpr);
     this.canvas.height = Math.round(size * dpr);
     this.dpr = dpr;
@@ -58,22 +60,18 @@ class ComplexPlane {
     window.addEventListener('mouseup', e => this._onUp(e));
 
     c.addEventListener('touchstart', e => {
-      e.preventDefault();
       const t = e.touches[0];
       this._onDown(t);
-    }, { passive: false });
+    }, { passive: true });
     c.addEventListener('touchmove', e => {
-      e.preventDefault();
       const t = e.touches[0];
       this._onMove(t);
-    }, { passive: false });
+    }, { passive: true });
     c.addEventListener('touchend', e => {
-      e.preventDefault();
       this._onUp(e);
-    }, { passive: false });
+    }, { passive: true });
   }
 
-  /** 获取鼠标在 CSS 像素坐标系中的位置 */
   _getPos(e) {
     const rect = this.canvas.getBoundingClientRect();
     return {
@@ -174,20 +172,17 @@ class ComplexPlane {
   }
 
   /* ========================
-     渲染：使用 CSS 像素坐标系
-     每帧先缩放 ctx 到设备像素
+     渲染：CSS 像素坐标系 + ctx.scale(dpr)
      ======================== */
   render() {
     const ctx = this.ctx;
-    const w = this.canvas.width;
-    const h = this.canvas.height;
     const s = this.scale;
 
-    // 重置变换并缩放到设备像素
+    // 重置变换 → 缩放到设备像素
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(this.dpr, this.dpr);
 
-    // 清空（使用 CSS 像素尺寸）
+    // 清空
     ctx.fillStyle = this.opts.bgColor;
     ctx.fillRect(0, 0, this.size, this.size);
 
@@ -198,22 +193,15 @@ class ComplexPlane {
     this._drawAxes(ctx, this.size, this.size, s);
 
     // 圆
-    for (const c of this.circles) {
-      this._drawCircle(ctx, c);
-    }
+    for (const c of this.circles) this._drawCircle(ctx, c);
 
     // 线段
-    for (const l of this.lines) {
-      this._drawLine(ctx, l);
-    }
+    for (const l of this.lines) this._drawLine(ctx, l);
 
     // 静态点/向量
     for (const sp of this.staticPoints) {
-      if (sp.type === 'vector') {
-        this._drawVector(ctx, sp, false);
-      } else {
-        this._drawPoint(ctx, sp, false);
-      }
+      if (sp.type === 'vector') this._drawVector(ctx, sp);
+      else this._drawPoint(ctx, sp, false);
     }
 
     // 拖拽点
@@ -222,11 +210,9 @@ class ComplexPlane {
       this._drawVectorFromOrigin(ctx, pt);
     }
 
-    // 恢复变换
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
-  // ---- 坐标变换 ----
   _toPixel(z) {
     return {
       x: this.cx + z.a * this.scale,
@@ -234,12 +220,9 @@ class ComplexPlane {
     };
   }
 
-  // ---- 绘图 ----
-
   _drawGrid(ctx, w, h, s) {
     ctx.strokeStyle = this.opts.gridColor;
     ctx.lineWidth = 0.5;
-
     const step = s;
     for (let x = this.cx % step; x < w; x += step) {
       ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
@@ -253,7 +236,6 @@ class ComplexPlane {
     const ax = this.opts.axisColor;
     const lc = this.opts.labelColor;
 
-    // 坐标轴线
     ctx.strokeStyle = ax;
     ctx.lineWidth = 1.5;
     ctx.beginPath();
@@ -261,22 +243,18 @@ class ComplexPlane {
     ctx.beginPath();
     ctx.moveTo(this.cx, 0); ctx.lineTo(this.cx, h); ctx.stroke();
 
-    // 箭头
     ctx.fillStyle = ax;
     this._arrow(ctx, w - 8, this.cy, -1, 0);
     this._arrow(ctx, this.cx, 8, 0, 1);
 
-    // 标签
     ctx.fillStyle = lc;
     ctx.font = '12px sans-serif';
     ctx.fillText('Re', w - 30, this.cy - 10);
     ctx.fillText('Im', this.cx + 10, 20);
 
-    // 原点
     ctx.font = '12px sans-serif';
     ctx.fillText(this.opts.originLabel || 'O', this.cx + 6, this.cy + 18);
 
-    // 刻度
     if (this.opts.showTickLabels) {
       ctx.fillStyle = lc;
       ctx.font = '10px sans-serif';
@@ -318,7 +296,6 @@ class ComplexPlane {
     const p = this._toPixel(pt.z);
     const r = isDraggable ? 7 : 5;
 
-    // 光环
     if (isDraggable) {
       ctx.beginPath();
       ctx.arc(p.x, p.y, r + 6, 0, Math.PI * 2);
@@ -326,13 +303,11 @@ class ComplexPlane {
       ctx.fill();
     }
 
-    // 实心圆
     ctx.beginPath();
     ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
     ctx.fillStyle = pt.color;
     ctx.fill();
 
-    // 标签
     if (pt.label) {
       ctx.fillStyle = pt.color;
       ctx.font = 'bold 13px sans-serif';
@@ -354,7 +329,6 @@ class ComplexPlane {
     ctx.stroke();
     ctx.globalAlpha = 1;
 
-    // 箭头
     const angle = Math.atan2(p.y - this.cy, p.x - this.cx);
     const len = 8;
     const a = Math.PI / 6;
