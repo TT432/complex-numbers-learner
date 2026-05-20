@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>复数探索 · 交互式学习</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<div id="app">
+  <button id="menu-toggle" aria-label="切换菜单">☰</button>
+
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h1>🧮 复数探索</h1>
+      <p class="subtitle">交互式学习</p>
+    </div>
+    <ul id="chapter-list"></ul>
+    <div class="sidebar-footer">
+      <div id="progress-bar"><div id="progress-fill"></div></div>
+      <span id="progress-text">0 / 7</span>
+    </div>
+  </nav>
+
+  <main id="content">
+    <div id="chapter-container">
+      <div class="welcome">
+        <h2>👋 欢迎</h2>
+        <p>通过拖拽、观察和练习，直观理解复数的几何意义。</p>
+        <p>点击左侧章节开始学习，或点击下方直接开始。</p>
+        <button class="btn-start" onclick="location.hash='#ch1'">开始学习 →</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="sidebar-overlay"></div>
+
+<script src="js/utils.js"></script>
+<script src="js/canvas.js"></script>
+<script src="js/chapters/01-intro.js"></script>
+<script src="js/chapters/02-representation.js"></script>
+<script src="js/chapters/03-add-sub.js"></script>
+<script src="js/chapters/04-mul-div.js"></script>
+<script src="js/chapters/05-conjugate.js"></script>
+<script src="js/chapters/06-demoivre.js"></script>
+<script src="js/chapters/07-quiz.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
