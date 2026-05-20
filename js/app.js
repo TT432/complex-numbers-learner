@@ -143,8 +143,18 @@ const chapters = [
   }
 
   function renderMath() {
-    if (window.renderMathInElement && container) {
-      requestAnimationFrame(() => {
+    if (!window.renderMathInElement || !container) return;
+    try {
+      renderMathInElement(container, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false
+      });
+    } catch(e) {
+      // fallback: 等 DOM 完全就绪后再试
+      setTimeout(() => {
         try {
           renderMathInElement(container, {
             delimiters: [
@@ -153,10 +163,8 @@ const chapters = [
             ],
             throwOnError: false
           });
-        } catch(e) {
-          // 静默忽略，下次导航会重试
-        }
-      });
+        } catch(_) {}
+      }, 50);
     }
   }
 
