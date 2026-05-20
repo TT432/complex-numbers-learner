@@ -46,6 +46,9 @@ const chapters = [
   }
 
   // ---- 渲染所有章节（瀑布流） ----
+  // 清空欢迎页
+  container.innerHTML = '';
+
   chapters.forEach((ch, i) => {
     ch.render(container);
     // 章节之间加分隔线
